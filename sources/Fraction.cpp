@@ -99,6 +99,14 @@ namespace ariel {
         }
     }
 
+    int Fraction::getNumerator(){
+        return _numerator;
+    }
+
+    int Fraction::getDenominator(){
+        return _denominator;
+    }
+
     void Fraction::increment() {
         _numerator += _denominator;
         reduce_fraction();

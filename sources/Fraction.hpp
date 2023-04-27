@@ -27,21 +27,24 @@ namespace ariel {
 
 
     public:
-         explicit Fraction(const int numerator = 1, const int denominator = 1) : _numerator(numerator),
-                                                                       _denominator(denominator) {
+        explicit Fraction(const int numerator = 1, const int denominator = 1) : _numerator(numerator),
+                                                                                _denominator(denominator) {
             if (denominator == 0) {
                 throw std::invalid_argument("The denominator can not be zero\n");
             }
             reduce_fraction();
         }
 
-         Fraction(const Fraction &rhs) : _numerator(rhs._numerator), _denominator(rhs._denominator) {
+        Fraction(const Fraction &rhs) : _numerator(rhs._numerator), _denominator(rhs._denominator) {
             reduce_fraction();
         }
 
-        explicit Fraction(const double floating_point) : Fraction(float_to_fraction(floating_point)){
+        explicit Fraction(const double floating_point) : Fraction(float_to_fraction(floating_point)) {
         }
 
+        int getNumerator();
+
+        int getDenominator();
 
         Fraction &operator++();
 
