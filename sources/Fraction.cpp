@@ -10,54 +10,54 @@
 
 namespace ariel {
 
-    int safe_multiply(int a, int b) {
-        if (a != 0 && b != 0) {
-            if (a > 0 && b > 0 && a > (std::numeric_limits<int>::max() / b)) {
+    int safe_multiply(int num1, int num2) {
+        if (num1 != 0 && num2 != 0) {
+            if (num1 > 0 && num2 > 0 && num1 > (std::numeric_limits<int>::max() / num2)) {
                 throw std::overflow_error("Integer overflow on multiplication");
             }
 
-            if (a < 0 && b < 0 && a < (std::numeric_limits<int>::max() / b)) {
+            if (num1 < 0 && num2 < 0 && num1 < (std::numeric_limits<int>::max() / num2)) {
                 throw std::overflow_error("Integer overflow on multiplication");
             }
 
-            if (a > 0 && b < 0 && b < (std::numeric_limits<int>::min() / a)) {
+            if (num1 > 0 && num2 < 0 && num2 < (std::numeric_limits<int>::min() / num1)) {
                 throw std::overflow_error("Integer overflow on multiplication");
             }
 
-            if (a < 0 && b > 0 && a < (std::numeric_limits<int>::min() / b)) {
+            if (num1 < 0 && num2 > 0 && num1 < (std::numeric_limits<int>::min() / num2)) {
                 throw std::overflow_error("Integer overflow on multiplication");
             }
         }
 
-        return a * b;
+        return num1 * num2;
     }
 
-    int safe_add(int a, int b) {
-        if ((b > 0) && a > std::numeric_limits<int>::max() - b) {
+    int safe_add(int num1, int num2) {
+        if ((num2 > 0) && num1 > std::numeric_limits<int>::max() - num2) {
             throw std::overflow_error("Operation caused an overflow");
         }
 
-        if ((b < 0) && a < std::numeric_limits<int>::min() - b) {
+        if ((num2 < 0) && num1 < std::numeric_limits<int>::min() - num2) {
             throw std::overflow_error("Operation caused an overflow");
         }
 
-        return a + b;
+        return num1 + num2;
     }
 
-    int safe_substract(int a, int b) {
-        if ((b > 0) && a < std::numeric_limits<int>::min() + b) {
+    int safe_substract(int num1, int num2) {
+        if ((num2 > 0) && num1 < std::numeric_limits<int>::min() + num2) {
             throw std::overflow_error("Operation caused an overflow");
         }
 
-        if ((b < 0) && a > std::numeric_limits<int>::min() + b) {
+        if ((num2 < 0) && num1 > std::numeric_limits<int>::min() + num2) {
             throw std::overflow_error("Operation caused an overflow");
         }
 
-        return a - b;
+        return num1 - num2;
     }
 
-    int Fraction::gcd(int a, int b) {
-        auto min_max = abs_max_min(a, b);
+    int Fraction::gcd(int num1, int num2) {
+        auto min_max = abs_max_min(num1, num2);
         int bigger_integer = std::abs(min_max.first);
         int smaller_integer = std::abs(min_max.second);
 
@@ -70,12 +70,12 @@ namespace ariel {
         return bigger_integer;
     }
 
-    std::pair<int, int> Fraction::abs_max_min(int a, int b) {
-        if (abs(a) > abs(b)) {
-            return std::make_pair(a, b);
+    std::pair<int, int> Fraction::abs_max_min(int num1, int num2) {
+        if (abs(num1) > abs(num2)) {
+            return std::make_pair(num1, num2);
         }
 
-        return std::make_pair(b, a);
+        return std::make_pair(num2, num1);
     }
 
     Fraction Fraction::float_to_fraction(const double floating_point) {
@@ -213,10 +213,7 @@ namespace ariel {
     }
 
     bool operator==(const Fraction &lhs, const Fraction &rhs) {
-        double fraction1 = static_cast<double>(lhs._numerator) / lhs._denominator;
-        double fraction2 = static_cast<double>(rhs._numerator) / rhs._denominator;
-        double tol = 0.001;
-        return (std::abs(fraction1 - fraction2) <= tol);
+        return (lhs._denominator == rhs._denominator) && (lhs._numerator == rhs._numerator);
     }
 
     bool operator==(const Fraction &lhs, double rhs) {

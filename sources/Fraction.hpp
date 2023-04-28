@@ -13,9 +13,9 @@ namespace ariel {
         int _numerator;
         int _denominator;
 
-        int gcd(int a, int b);
+        int gcd(int num1, int num2);
 
-        std::pair<int, int> abs_max_min(int a, int b);
+        std::pair<int, int> abs_max_min(int num1, int num2);
 
         Fraction float_to_fraction(double floating_point);
 
@@ -27,7 +27,7 @@ namespace ariel {
 
 
     public:
-        explicit Fraction(const int numerator = 1, const int denominator = 1) : _numerator(numerator),
+        explicit Fraction(const int &numerator = 1, const int &denominator = 1) : _numerator(numerator),
                                                                                 _denominator(denominator) {
             if (denominator == 0) {
                 throw std::invalid_argument("The denominator can not be zero\n");
