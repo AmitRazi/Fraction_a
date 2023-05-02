@@ -49,7 +49,7 @@ namespace ariel {
             throw std::overflow_error("Operation caused an overflow");
         }
 
-        if ((num2 < 0) && num1 > std::numeric_limits<int>::max() + num2) {
+        if ((num2 < 0) && num1 > std::numeric_limits<int>::min() + num2) {
             throw std::overflow_error("Operation caused an overflow");
         }
 
@@ -302,4 +302,3 @@ namespace ariel {
         return input_stream;
     }
 }
-
