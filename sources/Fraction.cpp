@@ -99,11 +99,11 @@ namespace ariel {
         }
     }
 
-    int Fraction::getNumerator(){
+    int Fraction::getNumerator() const{
         return _numerator;
     }
 
-    int Fraction::getDenominator(){
+    int Fraction::getDenominator() const{
         return _denominator;
     }
 
@@ -139,31 +139,31 @@ namespace ariel {
         return before_decrement;
     }
 
-    Fraction operator+(const Fraction &lhs, const Fraction &rhs) {
-        int common_denominator = safe_multiply(lhs._denominator, rhs._denominator);
-        int sum_numerator = safe_add(safe_multiply(lhs._numerator, rhs._denominator), safe_multiply(rhs._numerator, lhs._denominator));
+    Fraction Fraction::operator+(const Fraction &rhs) const{
+        int common_denominator = safe_multiply(_denominator, rhs._denominator);
+        int sum_numerator = safe_add(safe_multiply(_numerator, rhs._denominator), safe_multiply(rhs._numerator,_denominator));
         return Fraction(sum_numerator, common_denominator);
     }
 
-    Fraction operator+(const Fraction &lhs, double rhs) {
+    Fraction Fraction::operator+(const double rhs) const{
         Fraction rhs_fraction(rhs);
-        return lhs + rhs_fraction;
+        return (*this + rhs_fraction);
     }
 
-    Fraction operator+(double lhs, const Fraction &rhs) {
+    Fraction operator+(const double lhs, const Fraction &rhs) {
         Fraction lhs_fraction(lhs);
         return lhs_fraction + rhs;
     }
 
-    Fraction operator-(const Fraction &lhs, const Fraction &rhs) {
-        int common_denominator = safe_multiply(lhs._denominator, rhs._denominator);
-        int sub_numerator = safe_substract(safe_multiply(lhs._numerator, rhs._denominator), safe_multiply(rhs._numerator, lhs._denominator));
+    Fraction Fraction::operator-(const Fraction &rhs) const{
+        int common_denominator = safe_multiply(_denominator, rhs._denominator);
+        int sub_numerator = safe_substract(safe_multiply(_numerator, rhs._denominator), safe_multiply(_numerator, _denominator));
         return Fraction(sub_numerator, common_denominator);
     }
 
-    Fraction operator-(const Fraction &lhs, double rhs) {
+    Fraction Fraction::operator-(const double rhs)const {
         Fraction rhs_fraction(rhs);
-        return lhs - rhs_fraction;
+        return *this - rhs_fraction;
     }
 
     Fraction operator-(double lhs, const Fraction &rhs) {
@@ -171,15 +171,15 @@ namespace ariel {
         return lhs_fraction - rhs;
     }
 
-    Fraction operator*(const Fraction &lhs, const Fraction &rhs) {
-        int multiplied_numerator = safe_multiply(lhs._numerator , rhs._numerator);
-        int multiplies_denominator = safe_multiply(lhs._denominator, rhs._denominator);
+    Fraction Fraction::operator*( const Fraction &rhs) const{
+        int multiplied_numerator = safe_multiply(_numerator , rhs._numerator);
+        int multiplies_denominator = safe_multiply(_denominator, rhs._denominator);
         return Fraction(multiplied_numerator, multiplies_denominator);
     }
 
-    Fraction operator*(const Fraction &lhs, double rhs) {
+    Fraction Fraction::operator*(const double rhs) const{
         Fraction rhs_fraction(rhs);
-        return lhs * rhs_fraction;
+        return *this * rhs_fraction;
     }
 
     Fraction operator*(double lhs, const Fraction &rhs) {
@@ -187,22 +187,22 @@ namespace ariel {
         return lhs_fraction * rhs;
     }
 
-    Fraction operator/(const Fraction &lhs, const Fraction &rhs) {
+    Fraction Fraction::operator/(const Fraction &rhs) const{
         if (rhs == 0.0) {
             throw std::runtime_error("Dividing by zero\n");
         }
-        return lhs * Fraction(rhs._denominator, rhs._numerator);
+        return *this * Fraction(rhs._denominator, rhs._numerator);
     }
 
-    Fraction operator/(const Fraction &lhs, double rhs) {
+    Fraction Fraction::operator/(const double rhs) const{
         if (rhs == 0.0) {
             throw std::runtime_error("Dividing by zero\n");
         }
         Fraction rhs_fraction(rhs);
-        return lhs * Fraction(rhs_fraction._denominator, rhs_fraction._numerator);
+        return *this * Fraction(rhs_fraction._denominator, rhs_fraction._numerator);
     }
 
-    Fraction operator/(double lhs, const Fraction &rhs) {
+    Fraction operator/(const double lhs, const Fraction &rhs) {
         if (rhs == 0.0) {
             throw std::runtime_error("Dividing by zero\n");
         }
@@ -212,41 +212,41 @@ namespace ariel {
         return lhs_fraction * Fraction(rhs._denominator, rhs._numerator);
     }
 
-    bool operator==(const Fraction &lhs, const Fraction &rhs) {
-        return (lhs._denominator == rhs._denominator) && (lhs._numerator == rhs._numerator);
+    bool Fraction::operator==(const Fraction &rhs)const {
+        return (_denominator == rhs._denominator) && (_numerator == rhs._numerator);
     }
 
-    bool operator==(const Fraction &lhs, double rhs) {
+    bool Fraction::operator==(const double rhs) const{
         Fraction rhs_fraction(rhs);
-        return lhs == rhs_fraction;
+        return *this == rhs_fraction;
     }
 
-    bool operator==(double lhs, const Fraction &rhs) {
+    bool operator==(const double lhs, const Fraction &rhs) {
         Fraction lhs_fraction(lhs);
         return lhs_fraction == rhs;
     }
 
-    bool operator<(const Fraction &lhs, const Fraction &rhs) {
-        return (lhs._numerator * rhs._denominator - rhs._numerator * lhs._denominator) < 0;
+    bool Fraction::operator<(const Fraction &rhs) const{
+        return (_numerator * rhs._denominator - rhs._numerator * _denominator) < 0;
     }
 
-    bool operator<(const Fraction &lhs, double rhs) {
+    bool Fraction::operator<(const double rhs) const{
         Fraction rhs_fraction(rhs);
-        return lhs < rhs_fraction;
+        return *this < rhs_fraction;
     }
 
-    bool operator<(double lhs, const Fraction &rhs) {
+    bool operator<(const double lhs, const Fraction &rhs) {
         Fraction lhs_fraction(lhs);
         return lhs_fraction < rhs;
     }
 
-    bool operator>(const Fraction &lhs, const Fraction &rhs) {
-        return (lhs._numerator * rhs._denominator - rhs._numerator * lhs._denominator) > 0;
+    bool Fraction::operator>(const Fraction &rhs) const{
+        return (_numerator * rhs._denominator - rhs._numerator * _denominator) > 0;
     }
 
-    bool operator>(const Fraction &lhs, double rhs) {
+    bool Fraction::operator>(const double rhs) const{
         Fraction rhs_fraction(rhs);
-        return lhs > rhs_fraction;
+        return *this > rhs_fraction;
     }
 
     bool operator>(double lhs, const Fraction &rhs) {
@@ -254,27 +254,27 @@ namespace ariel {
         return lhs_fraction > rhs;
     }
 
-    bool operator<=(const Fraction &lhs, const Fraction &rhs) {
-        return ((lhs < rhs) || (lhs == rhs));
+    bool Fraction::operator<=(const Fraction &rhs) const{
+        return ((*this < rhs) || (*this == rhs));
     }
 
-    bool operator<=(const Fraction &lhs, double rhs) {
-        return ((lhs < rhs) || (lhs == rhs));
+    bool Fraction::operator<=(const double rhs) const {
+        return ((*this < rhs) || (*this == rhs));
     }
 
     bool operator<=(double lhs, const Fraction &rhs) {
         return (lhs < rhs) || (lhs == rhs);
     }
 
-    bool operator>=(const Fraction &lhs, const Fraction &rhs) {
-        return (lhs > rhs) || (lhs == rhs);
+    bool Fraction::operator>=(const Fraction &rhs) const{
+        return (*this > rhs) || (*this == rhs);
     }
 
-    bool operator>=(const Fraction &lhs, double rhs) {
-        return (lhs > rhs) || (lhs == rhs);
+    bool Fraction::operator>=(const double rhs) const{
+        return (*this > rhs) || (*this == rhs);
     }
 
-    bool operator>=(double lhs, const Fraction &rhs) {
+    bool operator>=(const double lhs, const Fraction &rhs) {
         return (lhs > rhs) || (lhs == rhs);
     }
 
